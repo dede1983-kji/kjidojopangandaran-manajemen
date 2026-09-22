@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#174a87">
+    <title>Manajemen Dojo 2026</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef3f8, #ffffff);
+            color: #173b67;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 390px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 10px 35px rgba(23, 59, 103, .14);
+            overflow: hidden;
+        }
+
+        /* LOGIN */
+        #loginBox {
+            padding: 28px 24px 32px;
+            text-align: center;
+        }
+
+        .logo-login {
+            width: 190px;
+            height: 190px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 8px;
+        }
+
+        .login-title {
+            font-size: 25px;
+            font-weight: 800;
+            margin: 8px 0 4px;
+            color: #174a87;
+        }
+
+        .login-year {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e51f2b;
+            margin-bottom: 24px;
+        }
+
+        .field {
+            position: relative;
+            margin-bottom: 13px;
+        }
+
+        .field-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 19px;
+        }
+
+        input {
+            width: 100%;
+            height: 50px;
+            padding: 0 14px 0 46px;
+            border: 1px solid #cbd7e5;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1768b0;
+            box-shadow: 0 0 0 3px rgba(23,104,176,.10);
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 52px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1768b0, #174a87);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        .login-btn:hover { filter: brightness(.95); }
+
+        .tagline {
+            margin-top: 25px;
+            color: #63758b;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .error {
+            min-height: 20px;
+            margin-top: 9px;
+            color: #dc3545;
+            font-size: 13px;
+        }
+
+        /* DASHBOARD */
+        #menuBox { display: none; }
+
+        .header {
+            padding: 15px 17px;
+            background: linear-gradient(135deg, #174a87, #1768b0);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-header {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 12px;
+            padding: 3px;
+            flex: 0 0 auto;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: left;
+        }
+
+        .header-title strong {
+            display: block;
+            font-size: 19px;
+            line-height: 1.1;
+        }
+
+        .header-title span {
+            display: block;
+            font-size: 15px;
+            margin-top: 3px;
+            opacity: .92;
+        }
+
+        .admin {
+            font-size: 12px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .content { padding: 16px; }
+
+        .menu-btn {
+            width: 100%;
+            min-height: 54px;
+            border: 0;
+            border-radius: 11px;
+            margin-bottom: 8px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,.08);
+        }
+
+        .menu-btn .arrow {
+            float: right;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .presensi { background: linear-gradient(135deg, #1768b0, #174a87); }
+        .anggota { background: linear-gradient(135deg, #16a05d, #198754); }
+        .keuangan { background: linear-gradient(135deg, #f59d12, #ed7c00); }
+        .ekarib { background: linear-gradient(135deg, #7656c9, #5941a8); }
+
+        .submenu {
+            display: none;
+            margin: -2px 0 9px;
+            padding: 4px 8px 8px;
+            background: #f0f5fa;
+            border-radius: 0 0 11px 11px;
+            border: 1px solid #e0e8f1;
+        }
+
+        .submenu a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 9px 8px;
+            color: #254a72;
+            text-decoration: none;
+            font-size: 13.5px;
+            border-bottom: 1px solid #dbe4ed;
+        }
+
+        .submenu a:last-child { border-bottom: 0; }
+
+        .submenu a:hover {
+            background: #e7eef6;
+            border-radius: 7px;
+        }
+
+        .logout {
+            display: block;
+            width: 100%;
+            height: 49px;
+            line-height: 49px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, #ef3340, #dc2633);
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            margin-top: 14px;
+        }
+
+        .logout:hover { filter: brightness(.95); }
+
+        .footer {
+            text-align: center;
+            color: #8998a9;
+            font-size: 11px;
+            padding: 0 0 4px;
+        }
+
+        @media (max-width: 420px) {
+            body { padding: 8px; }
+            .logo-login { width: 170px; height: 170px; }
+            .login-title { font-size: 22px; }
+            .header-title strong { font-size: 17px; }
+            .admin { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- LOGIN -->
+    <div class="card" id="loginBox">
+        <img src="logo-dojo.png" alt="Logo Dojo Pangandaran" class="logo-login">
+
+        <div class="login-title">MANAJEMEN DOJO</div>
+        <div class="login-year">2026</div>
+
+        <div class="field">
+            <span class="field-icon">👤</span>
+            <input type="text" id="username" placeholder="Username" autocomplete="username">
+        </div>
+
+        <div class="field">
+            <span class="field-icon">🔒</span>
+            <input type="password" id="password" placeholder="Password" autocomplete="current-password"
+                   onkeydown="if(event.key==='Enter') login()">
+        </div>
+
+        <button class="login-btn" onclick="login()">➜ &nbsp; MASUK</button>
+
+        <div class="error" id="errorMsg"></div>
+
+        <div class="tagline">Disiplin &nbsp; • &nbsp; Semangat &nbsp; • &nbsp; Prestasi</div>
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <div class="card" id="menuBox">
+
+        <div class="header">
+            <img src="logo-dojo.png" alt="Logo Dojo" class="logo-header">
+
+            <div class="header-title">
+                <strong>MANAJEMEN DOJO</strong>
+                <span>2026</span>
+            </div>
+
+            <div class="admin">👤<br>Admin</div>
+        </div>
+
+        <div class="content">
+
+            <!-- PRESENSI -->
+            <button class="menu-btn presensi" onclick="toggleMenu('presensi', this)">
+                🥋 &nbsp; PRESENSI
+                <span class="arrow">▼</span>
+            </button>
+
+            <div id="presensi" class="submenu">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdMbS2OZoS9e9jtpeE_VjmE0MkbY6RZS9ipgp7TQpRVTBBxfQ/viewform?usp=header" target="_blank" rel="noopener">📄 Presensi Ekstrakurikuler</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdxNLV8wFqNxZuzC2bKLrpdHBPcO2-oA6DqnQ5GQ8aJpFBneA/viewform?usp=header" target="_blank" rel="noopener">📄 Presensi Anggota Dojo</a>
+                <a href="https://lookerstudio.google.com/reporting/881facc4-2c32-4206-b957-47352c0b485a" target="_blank" rel="noopener">📊 Rekap Presensi Anggota Dojo</a>
+            </div>
+
+
+            <!-- KEANGGOTAAN -->
+            <button class="menu-btn anggota" onclick="toggleMenu('anggota', this)">
+                👥 &nbsp; KEANGGOTAAN
+                <span class="arrow">▼</span>
+            </button>
+
+            <div id="anggota" class="submenu">
+                <a href="https://docs.google.com/spreadsheets/d/10tlc5pRd5Pc5LcWpp4jE9MjIcPax6RgaA8FRADR-1FA/edit?usp=sharing" target="_blank" rel="noopener">👥 Data Anggota 2026</a>
+                <a href="https://docs.google.com/spreadsheets/d/1ynpowdS0g-luQl0HpFz6iV-cv4_w3PEXm1-pnNKk0lk/edit?usp=sharing" target="_blank" rel="noopener">📄 Report Pendaftaran Anggota Baru</a>
+                <a href="https://docs.google.com/spreadsheets/d/1OIBHfWD_hbwt4nPUewugBbuYPmj2Z7HilEAr8FgLE5I/edit?usp=sharing" target="_blank" rel="noopener">📄 Report Pendaftaran UKT</a>
+            </div>
+
+
+            <!-- KEUANGAN -->
+            <button class="menu-btn keuangan" onclick="toggleMenu('keuangan', this)">
+                💰 &nbsp; KEUANGAN
+                <span class="arrow">▼</span>
+            </button>
+
+            <div id="keuangan" class="submenu">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe2ALPOGxedrsf93LNjh455xImTyCQLRIbSYmcmcpCkjTqUqA/viewform?usp=header" target="_blank" rel="noopener">📝 Input Laporan Keuangan Dojo 2026</a>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRbty-kMJZRApj0VT6Mu8_vSZ_RAeQBlCuIRc0M1kHUuQQZvGv2S1MS98RF7Q1ydPWpgwb_Bk1jnicd/pubhtml?gid=665734908&single=true" target="_blank" rel="noopener">📊 Laporan Keuangan 2026</a>
+            </div>
+
+
+            <!-- E-KARIB -->
+            <button class="menu-btn ekarib" onclick="toggleMenu('ekarib', this)">
+                📊 &nbsp; E-KARIB 2026
+                <span class="arrow">▼</span>
+            </button>
+
+            <div id="ekarib" class="submenu">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfyeGBad59di33HZklMMpw42Ctbq6lWgB-gbo5hu93Nn9ZHwA/viewform?usp=header" target="_blank" rel="noopener">📁 E-KARIB 2026</a>
+                <a href="https://docs.google.com/spreadsheets/d/1jgP0Ni0Gqs5QwPz5-WW082ikOXqeLGo-TDyt6HR-e94/edit?usp=sharing" target="_blank" rel="noopener">📄 Report E-KARIB 2026</a>
+                <a href="https://lookerstudio.google.com/reporting/5e61eeae-284c-4133-bcc5-642f65b44a6f" target="_blank" rel="noopener">📊 Rekap E-KARIB 2026</a>
+            </div>
+
+
+            <a href="#" class="logout" onclick="logout(); return false;">🚪 &nbsp; LOGOUT</a>
+
+        </div>
+
+        <div class="footer">Dojo Pangandaran • Ju-Jitsu Training • 2026</div>
+    </div>
+
+</div>
+
+
+<script>
+    const USERNAME = "admin";
+    const PASSWORD = "bismillah";
+
+    function login() {
+        const user = document.getElementById("username").value.trim();
+        const pass = document.getElementById("password").value;
+        const error = document.getElementById("errorMsg");
+
+        if (user === USERNAME && pass === PASSWORD) {
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("menuBox").style.display = "block";
+            error.innerText = "";
+        } else {
+            error.innerText = "Username atau Password salah!";
+        }
+    }
+
+    function logout() {
+        document.getElementById("menuBox").style.display = "none";
+        document.getElementById("loginBox").style.display = "block";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("errorMsg").innerText = "";
+        closeMenus();
+    }
+
+    function closeMenus() {
+        document.querySelectorAll(".submenu").forEach(function(menu) {
+            menu.style.display = "none";
+        });
+
+        document.querySelectorAll(".arrow").forEach(function(arrow) {
+            arrow.innerText = "▼";
+        });
+    }
+
+    function toggleMenu(id, button) {
+        const menu = document.getElementById(id);
+        const arrow = button.querySelector(".arrow");
+        const isOpen = menu.style.display === "block";
+
+        closeMenus();
+
+        if (!isOpen) {
+            menu.style.display = "block";
+            arrow.innerText = "▲";
+        }
+    }
+</script>
+
+</body>
+</html>
